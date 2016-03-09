@@ -27,7 +27,7 @@ USING_NS_CC;
 
 bool CCProgressLayer::init()
 {
-    if (!CCLayerColor::initWithColor(ccc4(0, 0, 0, 0))) return false;
+    if (!LayerColor::initWithColor(ccc4(0, 0, 0, 0))) return false;
     
     showing = false;
     

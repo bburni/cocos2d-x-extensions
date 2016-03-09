@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 class CCActivityIndicator;
 
-class CCProgressLayer : public cocos2d::CCLayerColor {
+class CCProgressLayer : public cocos2d::LayerColor {
 public:
     bool init();
     CREATE_FUNC(CCProgressLayer);
