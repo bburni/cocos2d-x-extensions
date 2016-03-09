@@ -26,26 +26,24 @@ USING_NS_CC;
 
 bool CCActivityIndicator::init()
 {
-    CCSpriteFrameCache * spriteFramecache = CCSpriteFrameCache::sharedSpriteFrameCache();
+    SpriteFrameCache * spriteFramecache = SpriteFrameCache::getInstance();
     
     spriteFramecache->addSpriteFramesWithFile("ccactivityindicator.plist");
-    CCSpriteBatchNode::initWithFile("ccactivityindicator.png", 1);
+    SpriteBatchNode::initWithFile("ccactivityindicator.png", 1);
     
-    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-    indicator = CCSprite::createWithSpriteFrameName("ccactivityindicator_1.gif");
-    indicator->setPosition(ccp(winSize.width/2,winSize.height/2));
+    Size winSize = Director::getInstance()->getWinSize();
+    indicator = Sprite::createWithSpriteFrameName("ccactivityindicator_1.gif");
+    indicator->setPosition(Vec2(winSize.width/2,winSize.height/2));
     addChild(indicator);
     
     animating = false;
     hidesWhenStopped = true;
     
-    spriteFrames = CCArray::create();
-    spriteFrames->retain();
-    
     //load all sprite frames into array
-    for (int i=1; i<=kActivityIndicatorFramesCount; i++) {
-        CCSpriteFrame * frame = spriteFramecache->spriteFrameByName(CCString::createWithFormat("ccactivityindicator_%d.gif",i)->getCString());
-        spriteFrames->addObject(frame);
+    for (int i=1; i<=kActivityIndicatorFramesCount; i++)
+    {
+        SpriteFrame * frame = spriteFramecache->getSpriteFrameByName(StringUtils::format("ccactivityindicator_%d.gif",i));
+        spriteFrames.pushBack(frame);
     }
     
     return true;
@@ -53,26 +51,28 @@ bool CCActivityIndicator::init()
 
 CCActivityIndicator::~CCActivityIndicator()
 {
-    spriteFrames->release();
+    //spriteFrames->release();
 }
 
 void CCActivityIndicator::updateVisibility()
 {
-    if (hidesWhenStopped && !isAnimating()) {
+    if (hidesWhenStopped && !isAnimating())
+    {
         indicator->setVisible(false);
     }
 }
 
-void CCActivityIndicator::setParent(CCNode*p)
+void CCActivityIndicator::setParent(Node* p)
 {
-    CCSpriteBatchNode::setParent(p);
+    SpriteBatchNode::setParent(p);
     
-    if (p!=NULL) {
+    if (p!=nullptr)
+    {
         updateVisibility();
     }
 }
 
-void CCActivityIndicator::setPosition(const cocos2d::CCPoint& pos)
+void CCActivityIndicator::setPosition(const cocos2d::Point& pos)
 {
     indicator->setPosition(pos);
 }
@@ -83,9 +83,9 @@ void CCActivityIndicator::startAnimating()
     animating = true;
     
     indicator->setVisible(true);
-    CCAnimation * anim = CCAnimation::createWithSpriteFrames(spriteFrames, kActivityIndicatorDelayBetweenFrames);
-    CCAnimate * action = CCAnimate::create(anim);
-    indicator->runAction(CCRepeatForever::create(action));
+    Animation * anim = Animation::createWithSpriteFrames(spriteFrames, kActivityIndicatorDelayBetweenFrames);
+    Animate * action = Animate::create(anim);
+    indicator->runAction(RepeatForever::create(action));
 }
 
 void CCActivityIndicator::stopAnimating()

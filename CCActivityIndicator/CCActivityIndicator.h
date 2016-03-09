@@ -28,7 +28,7 @@ THE SOFTWARE.
 #define kActivityIndicatorFramesCount 12
 #define kActivityIndicatorDelayBetweenFrames 0.1
 
-class CCActivityIndicator : public cocos2d::CCSpriteBatchNode {
+class CCActivityIndicator : public cocos2d::SpriteBatchNode {
 public:
     bool init();
     CREATE_FUNC(CCActivityIndicator);
@@ -37,14 +37,16 @@ public:
     void stopAnimating();
     bool isAnimating() {return animating;}
     
-    virtual void setParent(cocos2d::CCNode*p);
-    virtual void setPosition(const cocos2d::CCPoint& pos);
+    virtual void setParent(cocos2d::Node *p);
+    virtual void setPosition(const cocos2d::Point& pos);
+
 protected:
     CC_SYNTHESIZE(bool, hidesWhenStopped, HidesWhenStopped);
+    
 private:
     bool animating;
-    cocos2d::CCArray * spriteFrames;
-    cocos2d::CCSprite * indicator;
+    cocos2d::Vector<cocos2d::SpriteFrame*> spriteFrames;
+    cocos2d::Sprite * indicator;
     
     void updateVisibility();
 };
